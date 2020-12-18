@@ -7,8 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ApiLog extends DynamoDbModel
 {
-    // protected $table = env('API_LOGS_TABLE');
-    protected $primaryKey = 'uuid';
+    protected $compositeKey = ['query_date', 'mobile'];
 
     public function __construct()
     {
@@ -16,7 +15,8 @@ class ApiLog extends DynamoDbModel
 
         $this->setDynamoDbIndexKeys([
             env("API_LOGS_TABLE_INDEX") => [
-                'hash' => 'query_date'
+                'hash' => 'query_date',
+                'range' => 'mobile'
             ]
         ]);
     }
