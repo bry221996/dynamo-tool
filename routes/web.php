@@ -38,7 +38,9 @@ Route::get('/logs', function () {
         $log->error_response = json_decode(json_encode($log->error_response), FALSE);
         $log->request = json_decode(($log->request));
         return $log;
-    })->toArray();
+    })
+        ->sortByDesc('created_at')
+        ->toArray();
 
 
     return response(['data' => $log]);
