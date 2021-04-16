@@ -7,6 +7,8 @@
 require("./bootstrap");
 
 window.Vue = require("vue");
+import VueClipboard from "vue-clipboard2";
+Vue.use(VueClipboard)
 
 /**
  * The following block of code may be used to automatically register your
