@@ -63,8 +63,8 @@
 					</div>
 					<div class="card-body">
 						<div class="row">
-							<div class="col-3">
-								<div style="max-height: 80vh; overflow: scroll">
+							<div class="col-3" style="max-height: 80vh; overflow: scroll">
+								<div>
 									<div class="list-group" id="list-tab" role="tablist">
 										<a
 											v-for="log in logs"
@@ -81,7 +81,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="col-9">
+							<div class="col-9" style="max-height: 80vh; overflow: scroll">
 								<div class="tab-content" id="nav-tabContent">
 									<div
 										v-for="log in logs"

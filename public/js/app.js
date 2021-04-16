@@ -60361,11 +60361,14 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "card-body" }, [
             _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-3" }, [
-                _c(
-                  "div",
-                  { staticStyle: { "max-height": "80vh", overflow: "scroll" } },
-                  [
+              _c(
+                "div",
+                {
+                  staticClass: "col-3",
+                  staticStyle: { "max-height": "80vh", overflow: "scroll" }
+                },
+                [
+                  _c("div", [
                     _c(
                       "div",
                       {
@@ -60392,138 +60395,149 @@ var render = function() {
                       }),
                       0
                     )
-                  ]
-                )
-              ]),
+                  ])
+                ]
+              ),
               _vm._v(" "),
-              _c("div", { staticClass: "col-9" }, [
-                _c(
-                  "div",
-                  {
-                    staticClass: "tab-content",
-                    attrs: { id: "nav-tabContent" }
-                  },
-                  _vm._l(_vm.logs, function(log) {
-                    return _c(
-                      "div",
-                      {
-                        key: log.uuid,
-                        staticClass: "tab-pane fade",
-                        attrs: {
-                          id: "list-" + log.uuid,
-                          role: "tabpanel",
-                          "aria-labelledby": "list-" + log.uuid + "-list"
-                        }
-                      },
-                      [
-                        _c("ul", { staticClass: "list-group" }, [
-                          _c(
-                            "li",
-                            {
-                              staticClass:
-                                "py-2 list-group-item d-flex justify-content-between align-items-center"
-                            },
-                            [
-                              _c("code", [
-                                _vm._v("Mobile: " + _vm._s(log.mobile))
-                              ])
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "li",
-                            {
-                              staticClass:
-                                "py-2 list-group-item d-flex justify-content-between align-items-center"
-                            },
-                            [
-                              _c("code", [
-                                _vm._v(
-                                  "Timestamp: " +
-                                    _vm._s(_vm.formatDate(log.created_at))
-                                )
-                              ])
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "li",
-                            {
-                              staticClass:
-                                "py-2 list-group-item d-flex justify-content-between align-items-center"
-                            },
-                            [
-                              _c("code", [
-                                _vm._v(
-                                  "Transaction: " + _vm._s(log.transaction_type)
-                                )
-                              ])
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "li",
-                            {
-                              staticClass:
-                                "py-2 list-group-item d-flex justify-content-between align-items-center"
-                            },
-                            [
-                              _c("code", [
-                                _vm._v(
-                                  "Response Code: " +
-                                    _vm._s(log.millipede_error)
-                                )
-                              ])
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "li",
-                            {
-                              staticClass:
-                                "py-2 list-group-item d-flex justify-content-between align-items-center"
-                            },
-                            [
-                              _c("code", [
-                                _vm._v(
-                                  "Response Message: " + _vm._s(log.message)
-                                )
-                              ])
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "li",
-                            { staticClass: "py-2 list-group-item d-flex" },
-                            [
-                              _vm._m(0, true),
-                              _vm._v(" "),
-                              _c("vue-json-pretty", {
-                                attrs: { path: "res", data: log.request }
-                              })
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "li",
-                            { staticClass: "py-2 list-group-item d-flex" },
-                            [
-                              _vm._m(1, true),
-                              _vm._v(" "),
-                              _c("vue-json-pretty", {
-                                attrs: { path: "res", data: log.error_response }
-                              })
-                            ],
-                            1
-                          )
-                        ])
-                      ]
-                    )
-                  }),
-                  0
-                )
-              ])
+              _c(
+                "div",
+                {
+                  staticClass: "col-9",
+                  staticStyle: { "max-height": "80vh", overflow: "scroll" }
+                },
+                [
+                  _c(
+                    "div",
+                    {
+                      staticClass: "tab-content",
+                      attrs: { id: "nav-tabContent" }
+                    },
+                    _vm._l(_vm.logs, function(log) {
+                      return _c(
+                        "div",
+                        {
+                          key: log.uuid,
+                          staticClass: "tab-pane fade",
+                          attrs: {
+                            id: "list-" + log.uuid,
+                            role: "tabpanel",
+                            "aria-labelledby": "list-" + log.uuid + "-list"
+                          }
+                        },
+                        [
+                          _c("ul", { staticClass: "list-group" }, [
+                            _c(
+                              "li",
+                              {
+                                staticClass:
+                                  "py-2 list-group-item d-flex justify-content-between align-items-center"
+                              },
+                              [
+                                _c("code", [
+                                  _vm._v("Mobile: " + _vm._s(log.mobile))
+                                ])
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "li",
+                              {
+                                staticClass:
+                                  "py-2 list-group-item d-flex justify-content-between align-items-center"
+                              },
+                              [
+                                _c("code", [
+                                  _vm._v(
+                                    "Timestamp: " +
+                                      _vm._s(_vm.formatDate(log.created_at))
+                                  )
+                                ])
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "li",
+                              {
+                                staticClass:
+                                  "py-2 list-group-item d-flex justify-content-between align-items-center"
+                              },
+                              [
+                                _c("code", [
+                                  _vm._v(
+                                    "Transaction: " +
+                                      _vm._s(log.transaction_type)
+                                  )
+                                ])
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "li",
+                              {
+                                staticClass:
+                                  "py-2 list-group-item d-flex justify-content-between align-items-center"
+                              },
+                              [
+                                _c("code", [
+                                  _vm._v(
+                                    "Response Code: " +
+                                      _vm._s(log.millipede_error)
+                                  )
+                                ])
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "li",
+                              {
+                                staticClass:
+                                  "py-2 list-group-item d-flex justify-content-between align-items-center"
+                              },
+                              [
+                                _c("code", [
+                                  _vm._v(
+                                    "Response Message: " + _vm._s(log.message)
+                                  )
+                                ])
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "li",
+                              { staticClass: "py-2 list-group-item d-flex" },
+                              [
+                                _vm._m(0, true),
+                                _vm._v(" "),
+                                _c("vue-json-pretty", {
+                                  attrs: { path: "res", data: log.request }
+                                })
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "li",
+                              { staticClass: "py-2 list-group-item d-flex" },
+                              [
+                                _vm._m(1, true),
+                                _vm._v(" "),
+                                _c("vue-json-pretty", {
+                                  attrs: {
+                                    path: "res",
+                                    data: log.error_response
+                                  }
+                                })
+                              ],
+                              1
+                            )
+                          ])
+                        ]
+                      )
+                    }),
+                    0
+                  )
+                ]
+              )
             ])
           ])
         ])
