@@ -2,6 +2,7 @@
 
 use App\ApiLog;
 use App\Jobs\GenerateLogs;
+use App\WakandaLog;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,9 +17,39 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    dispatch(new GenerateLogs());
+    return view('welcome');
+});
 
-    dd('done');
+Route::get('/logs', function () {
+
+    $column = strlen(request('mobile')) == 11 ? 'mobile' : 'account_number';
+
+    $log =  WakandaLog::where('query_date', request('date'))
+        ->where($column, request('mobile'));
+
+    if (request()->has('method')) {
+        $log->where('http_method', strtoupper(request('method')));
+    }
+
+    if (request()->has('code')) {
+        $log->where('status_code', (int) request('code'));
+    }
+
+    if (request()->has('transaction')) {
+        $log->where('transaction_type', 'contains', request('transaction'));
+    }
+
+
+    $log = $log->get()->map(function ($log) {
+        $log->error_response = json_decode(json_encode($log->error_response), FALSE);
+        $log->request = json_decode(($log->request));
+        return $log;
+    })
+        ->sortByDesc('created_at')
+        ->toArray();
+
+
+    return response(['data' => $log]);
 });
 
 Route::get('test', function () {
@@ -41,5 +72,4 @@ Route::get('test', function () {
         });
 
     return response(['datata']);
-
 });
