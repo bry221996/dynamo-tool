@@ -6668,7 +6668,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.vjs-key,\n.vjs-tree,\ncode {\n\tfont-size: 12px !important;\n}\n", ""]);
+exports.push([module.i, "\n.vjs-key,\r\n.vjs-tree,\r\ncode {\r\n\tfont-size: 12px !important;\n}\r\n", ""]);
 
 // exports
 

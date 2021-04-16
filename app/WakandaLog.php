@@ -13,7 +13,8 @@ class WakandaLog extends DynamoDbModel
         $this->setTable(env('WAKANDA_LOGS_TABLE'));
         $this->setDynamoDbIndexKeys([
             env("WAKANDA_LOGS_TABLE_INDEX") => [
-                'hash' => 'query_date'
+                'hash' => 'query_date',
+                'range' => 'mobile'
             ],
             env("WAKANDA_LOGS_TABLE_COMPOSITE_INDEX") => [
                 'hash' => 'query_date',

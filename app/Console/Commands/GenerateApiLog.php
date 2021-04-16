@@ -1,14 +1,10 @@
 <?php
-
 namespace App\Console\Commands;
-
-use App\ApiLog;
 use Illuminate\Console\Command;
 use Carbon\Carbon;
-use App\WakandaLog;
+use App\ApiLog;
 use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use Storage;
-
 class GenerateApiLog extends Command
 {
     /**
@@ -17,14 +13,12 @@ class GenerateApiLog extends Command
      * @var string
      */
     protected $signature = 'generate:api-logs';
-
     /**
      * The console command description.
      *
      * @var string
      */
     protected $description = 'Command description';
-
     /**
      * Create a new command instance.
      *
@@ -34,7 +28,6 @@ class GenerateApiLog extends Command
     {
         parent::__construct();
     }
-
     /**
      * Execute the console command.
      *
@@ -42,41 +35,58 @@ class GenerateApiLog extends Command
      */
     public function handle()
     {
-        $date = '2020-12-17';
+        $date = '2021-03-10';
+        $mobiles = [];
 
-        Storage::disk('public')->makeDirectory($date);
-
-        $headers = ['MSISDN', 'Query_Date', 'Message', 'Error_Response', 'HTTP_Method', 'SKU', 'Status_Code', 'Activity_Date'];
-
-        $mainWriter = WriterEntityFactory::createCSVWriter();
-
-        $mainWriter->openToFile(public_path("$date/api-logs-report-$date.csv"));
-
-        $mainWriter->addRow(WriterEntityFactory::createRowFromArray($headers));
-
-        ApiLog::where('query_date', $date)
-            ->where('mobile', 'contains', '09178512255')
-            ->chunk(5000, function ($records) use ($mainWriter) {
-                dump(count($records));
-                foreach ($records as $apiLog) {
-                    $message = isset($apiLog->message) ? $apiLog->message : '';
-
-                    $values = [
-                        $apiLog->mobile,
-                        $apiLog->query_date,
-                        $message,
-                        substr(json_encode(collect($apiLog->error_response)), 0, 10000),
-                        $apiLog->http_method,
-                        json_encode(collect($apiLog->sku)),
-                        $apiLog->status_code,
-                        $apiLog->created_at,
-                    ];
-
-                    $rowFromValues = WriterEntityFactory::createRowFromArray($values);
-                    $mainWriter->addRow($rowFromValues);
-                }
-            });
-
-        $mainWriter->close();
+        foreach($mobiles as $mobile){
+            Storage::disk('public')->makeDirectory('api-logs/' . $date);
+            $headers = ['MSISDN', 'Message', 'Error_Response', 'HTTP_Method', 'SKU', 'Status_Code', 'Activity_Date'];
+            $mainWriter = WriterEntityFactory::createCSVWriter();
+            $mainWriter->openToFile(public_path("api-logs/$date/api-logs-report-$date-$mobile.csv"));
+            $mainWriter->addRow(WriterEntityFactory::createRowFromArray($headers));
+            $range = [
+                (object) ['start' => '00:00:00+08:00', 'end' => '03:59:59+08:00'],
+                (object) ['start' => '04:00:00+08:00', 'end' => '07:59:59+08:00'],
+                (object) ['start' => '08:00:00+08:00', 'end' => '11:59:59+08:00'],
+                (object) ['start' => '12:00:00+08:00', 'end' => '15:59:59+08:00'],
+                (object) ['start' => '16:00:00+08:00', 'end' => '19:59:59+08:00'],
+                (object) ['start' => '20:00:00+08:00', 'end' => '23:59:59+08:00'],
+            ];
+            $overallCount = 0;
+            dump('Generating: ' . $date . ' for ' . $mobile);
+            collect($range)
+                ->each(function ($range) use ($date, $mainWriter, $headers, &$overallCount, $mobile) {
+                    // $from = $date . 'T' . $range->start;
+                    // $to = $date . 'T' . $range->end;
+                    // $subWriter = WriterEntityFactory::createCSVWriter();
+                    // $subWriter->openToFile(public_path("$date/$from.csv"));
+                    // $subWriter->addRow(WriterEntityFactory::createRowFromArray($headers));
+                    $total = 0;
+                    $query = ['query_date' => $date, 'mobile' => $mobile];
+                    ApiLog::where($query)
+                        // ->where('created_at', 'between', [$from, $to])
+                        ->chunk(5000, function ($records) use ($mainWriter, &$total, &$overallCount, $date) {
+                            $total = $total + count($records);
+                            $overallCount = $overallCount + count($records);
+                            dump($date . 'on going: ' . $total . ' Overall Count: ' . $overallCount);
+                            foreach ($records as $apiLog) {
+                                $values = [
+                                    $apiLog->mobile,
+                                    $apiLog->message,
+                                    json_encode(collect($apiLog->error_response)),
+                                    $apiLog->http_method,
+                                    json_encode(collect($apiLog->sku)),
+                                    $apiLog->status_code,
+                                    $apiLog->created_at,
+                                ];
+                                $rowFromValues = WriterEntityFactory::createRowFromArray($values);
+                                $mainWriter->addRow($rowFromValues);
+                                // $subWriter->addRow($rowFromValues);
+                            }
+                        });
+                    // $subWriter->close();
+                });
+                $mainWriter->close();
+        }
     }
 }
