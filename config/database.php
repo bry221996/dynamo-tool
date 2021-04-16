@@ -63,6 +63,36 @@ return [
             ]) : [],
         ],
 
+        'mysql_api' => [
+            'driver' => 'mysql',
+            'host' => env('API_HOST', '127.0.0.1'),
+            'port' => env('API_PORT', '3306'),
+            'database' => env('API_DATABASE', 'forge'),
+            'username' => env('API_USERNAME', 'forge'),
+            'password' => env('API_PASSWORD', ''),
+            'unix_socket' => env('API_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'strict' => false,
+            'engine' => null,
+        ],
+
+        'mysql_dau' => [
+            'driver' => 'mysql',
+            'host' => env('DAU_HOST', '127.0.0.1'),
+            'port' => env('DAU_PORT', '3306'),
+            'database' => env('DAU_DATABASE', 'forge'),
+            'username' => env('DAU_USERNAME', 'forge'),
+            'password' => env('DAU_PASSWORD', ''),
+            'unix_socket' => env('DAU_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'strict' => false,
+            'engine' => null,
+        ],
+
         'pgsql' => [
             'driver' => 'pgsql',
             'url' => env('DATABASE_URL'),

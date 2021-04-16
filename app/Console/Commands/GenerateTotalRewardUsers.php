@@ -2,17 +2,19 @@
 namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Carbon\Carbon;
-use App\WakandaLog;
 use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use Storage;
-class GenerateWakandaLog extends Command
+use App\Libraries\Globe;
+
+use App\Customer;
+class GenerateTotalRewardUsers extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'generate:wakanda-logs';
+    protected $signature = 'generate:total-reward-users';
     /**
      * The console command description.
      *
@@ -35,19 +37,18 @@ class GenerateWakandaLog extends Command
      */
     public function handle()
     {
-        $dates = ['2021-04-05'];
+        $date = '2021-03-08';
         // $mobiles = [];
 
-        foreach($dates as $date){
-            // Storage::disk('public')->makeDirectory('wakanda-logs/' . $date);
+        // foreach($mobiles as $mobile){
+            // Storage::disk('public')->makeDirectory('total-reward-users/' . $date);
             Storage::disk('public')->makeDirectory($date);
 
-            $headers = ['MSISDN', 'Account_Number', 'Message', 'Transaction_Type', 'Millipede_Error', 'Error_Response', 'HTTP_Method', 'SKU', 'Status_Code', 'Activity_Date'];
+            $headers = ['MSISDN', 'Account_Number', 'Subs_ID', 'Registration_Date', 'App_Version', 'Brand_Type', 'Device', 'Device_ID'];
             $mainWriter = WriterEntityFactory::createCSVWriter();
 
-            $dateInFilename = str_replace('-', '', $date);
-            // $mainWriter->openToFile(public_path("wakanda-logs/$date/wakanda-logs-report-$date-$mobile.csv"));
-            $mainWriter->openToFile(public_path("$date/wakanda-logs-report-$dateInFilename.csv"));
+            // $mainWriter->openToFile(public_path("total-reward-users/$date/total-reward-users-report-$date-$mobile.csv"));
+            $mainWriter->openToFile(public_path("$date/total-reward-users-report-$date.csv"));
 
             $mainWriter->addRow(WriterEntityFactory::createRowFromArray($headers));
             $range = [
@@ -72,26 +73,44 @@ class GenerateWakandaLog extends Command
                     // $subWriter->openToFile(public_path("$date/$from.csv"));
                     // $subWriter->addRow(WriterEntityFactory::createRowFromArray($headers));
                     $total = 0;
-                    WakandaLog::where('query_date', $date)
+                    Customer::select(['mobile', 'account_number', 'brandtype', 'app_version', 'created_at',])
                         // ->where('mobile', $mobile)
+                        ->whereNotNull('first_name')
+                        ->whereNotNull('last_name')
+                        ->whereNotNull('email')
+                        ->with(['mobiles'])
                         ->where('created_at', 'between', [$from, $to])
                         ->chunk(5000, function ($records) use ($mainWriter, &$total, &$overallCount, $from) {
                             $total = $total + count($records);
                             $overallCount = $overallCount + count($records);
                             dump($from . 'on going: ' . $total . ' Overall Count: ' . $overallCount);
-                            foreach ($records as $wakandaLog) {
-                                $values = [
-                                    $wakandaLog->mobile,
-                                    $wakandaLog->account_number,
-                                    $wakandaLog->message,
-                                    $wakandaLog->transaction_type,
-                                    json_encode(collect($wakandaLog->millipede_error)),
-                                    json_encode(collect($wakandaLog->error_response)),
-                                    $wakandaLog->http_method,
-                                    json_encode(collect($wakandaLog->sku)),
-                                    $wakandaLog->status_code,
-                                    $wakandaLog->created_at,
-                                ];
+                            foreach ($records as $transactionHistory) {
+                                if (isset($transactionHistory->mobiles) && count($transactionHistory->mobiles) > 0) {
+
+                                    foreach ($transactionHistory->mobiles as $mobile) {
+                                        $values = [
+                                            $transactionHistory->mobile,
+                                            $transactionHistory->account_number,
+                                            null,
+                                            $transactionHistory->created_at,
+                                            $transactionHistory->app_version,
+                                            strtoupper(Globe::brandType($transactionHistory->brandtype)),
+                                            $mobile->device_type,
+                                            $mobile->device
+                                        ];
+                                    }
+                                } else {
+                                    $values = [
+                                        $transactionHistory->mobile,
+                                        $transactionHistory->account_number,
+                                        null,
+                                        $transactionHistory->created_at,
+                                        $transactionHistory->app_version,
+                                        Globe::brandType($transactionHistory->brandtype),
+                                        null,
+                                        null
+                                    ];
+                                }
                                 $rowFromValues = WriterEntityFactory::createRowFromArray($values);
                                 $mainWriter->addRow($rowFromValues);
                                 // $subWriter->addRow($rowFromValues);
@@ -100,6 +119,6 @@ class GenerateWakandaLog extends Command
                     // $subWriter->close();
                 });
                 $mainWriter->close();
-        }
+        // }
     }
 }
