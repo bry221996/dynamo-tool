@@ -32,11 +32,17 @@
 							</div>
 							<div class="row mt-2">
 								<button
-									class="btn btn-primary px-5 btn-sm"
+									class="btn btn-primary px-5 btn-sm mr-2"
 									:disabled="buttonIsDisabled"
 									@click.prevent="find"
 									v-html="btnDisplay"
 								></button>
+								<button
+									class="btn btn-primary px-5 btn-sm"
+									@click.prevent="reset"
+								>
+									Reset
+								</button>
 							</div>
 						</form>
 					</div>
@@ -79,7 +85,7 @@
 											<li
 												class="py-2 list-group-item d-flex justify-content-between align-items-center"
 											>
-												<code>Timestamp: {{ log.created_at }}</code>
+												<code>Timestamp: {{ formatDate(log.created_at) }}</code>
 											</li>
 											<li
 												class="py-2 list-group-item d-flex justify-content-between align-items-center"
@@ -106,7 +112,7 @@
 											</li>
 											<li class="py-2 list-group-item d-flex">
 												<div class="mr-4">
-													<code>Request</code>
+													<code>Response</code>
 												</div>
 												<vue-json-pretty
 													:path="'res'"
@@ -130,6 +136,7 @@
 import VueJsonPretty from "vue-json-pretty";
 import "vue-json-pretty/lib/styles.css";
 import axios from "axios";
+import moment from "moment";
 
 export default {
 	name: "LogFinder",
@@ -168,6 +175,14 @@ export default {
 		},
 	},
 	methods: {
+		formatDate(date) {
+			return moment(date);
+		},
+		reset() {
+			this.mobile = "";
+			this.method = "";
+			this.logs = [];
+		},
 		find() {
 			this.isProcessing = true;
 			axios
