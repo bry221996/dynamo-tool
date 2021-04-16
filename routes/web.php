@@ -23,7 +23,6 @@ Route::get('/', function () {
 Route::get('/logs', function () {
     $log =  WakandaLog::where('query_date', request('date'))
         ->where('mobile', request('mobile'));
-    // ->where('transaction_type', 'contains', 'subscriber');
 
     if (request()->has('method')) {
         $log->where('http_method', strtoupper(request('method')));
@@ -31,6 +30,10 @@ Route::get('/logs', function () {
 
     if (request()->has('code')) {
         $log->where('status_code', (int) request('code'));
+    }
+
+    if (request()->has('transaction')) {
+        $log->where('transaction_type', 'contains', request('transaction'));
     }
 
 

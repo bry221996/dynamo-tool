@@ -1,5 +1,5 @@
 <template>
-	<div class="container mt-1">
+	<div class="container-fluid mt-1">
 		<div class="row">
 			<div class="col">
 				<div class="card">
@@ -27,6 +27,21 @@
 										<option value="GET">GET</option>
 										<option value="POST">POST</option>
 										<option value="PUT">PUT</option>
+									</select>
+								</div>
+								<div class="col px-0">
+									<select
+										v-model="transaction"
+										class="form-control form-control-sm"
+									>
+										<option value="">Transaction Type</option>
+										<option
+											v-for="transactionType in transactionTypes"
+											:key="transactionType.value"
+											:value="transactionType.value"
+										>
+											{{ transactionType.display }}
+										</option>
 									</select>
 								</div>
 							</div>
@@ -145,11 +160,38 @@ export default {
 	},
 	data() {
 		return {
-			mobile: null,
+			mobile: "",
 			queryDate: "2021-04-16",
 			method: "",
 			logs: [],
 			isProcessing: false,
+			transaction: "",
+			transactionTypes: [
+				{
+					display: "Mobile subscriber attrs. (UUP)",
+					value: "subscribers",
+				},
+				{
+					display: "Get Points",
+					value: "points",
+				},
+				{
+					display: "PAC",
+					value: "purchases",
+				},
+				{
+					display: "Get Profile",
+					value: "profiles",
+				},
+				{
+					display: "Update Profile",
+					value: "profiles/",
+				},
+				{
+					display: "Redemptions",
+					value: "rewards/redemptions",
+				},
+			],
 		};
 	},
 	computed: {
@@ -164,6 +206,10 @@ export default {
 
 			if (this.method) {
 				obj.method = this.method;
+			}
+
+			if (this.transaction) {
+				obj.transaction = this.transaction;
 			}
 
 			return obj;
@@ -181,6 +227,7 @@ export default {
 		reset() {
 			this.mobile = "";
 			this.method = "";
+			this.transaction = "";
 			this.logs = [];
 		},
 		find() {

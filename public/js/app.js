@@ -2083,6 +2083,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2094,11 +2109,31 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      mobile: null,
+      mobile: "",
       queryDate: "2021-04-16",
       method: "",
       logs: [],
-      isProcessing: false
+      isProcessing: false,
+      transaction: "",
+      transactionTypes: [{
+        display: "Mobile subscriber attrs. (UUP)",
+        value: "subscribers"
+      }, {
+        display: "Get Points",
+        value: "points"
+      }, {
+        display: "PAC",
+        value: "purchases"
+      }, {
+        display: "Get Profile",
+        value: "profiles"
+      }, {
+        display: "Update Profile",
+        value: "profiles/"
+      }, {
+        display: "Redemptions",
+        value: "rewards/redemptions"
+      }]
     };
   },
   computed: {
@@ -2115,6 +2150,10 @@ __webpack_require__.r(__webpack_exports__);
         obj.method = this.method;
       }
 
+      if (this.transaction) {
+        obj.transaction = this.transaction;
+      }
+
       return obj;
     },
     btnDisplay: function btnDisplay() {
@@ -2128,6 +2167,7 @@ __webpack_require__.r(__webpack_exports__);
     reset: function reset() {
       this.mobile = "";
       this.method = "";
+      this.transaction = "";
       this.logs = [];
     },
     find: function find() {
@@ -60131,7 +60171,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container mt-1" }, [
+  return _c("div", { staticClass: "container-fluid mt-1" }, [
     _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col" }, [
         _c("div", { staticClass: "card" }, [
@@ -60230,6 +60270,61 @@ var render = function() {
                       _vm._v(" "),
                       _c("option", { attrs: { value: "PUT" } }, [_vm._v("PUT")])
                     ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col px-0" }, [
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.transaction,
+                          expression: "transaction"
+                        }
+                      ],
+                      staticClass: "form-control form-control-sm",
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.transaction = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        }
+                      }
+                    },
+                    [
+                      _c("option", { attrs: { value: "" } }, [
+                        _vm._v("Transaction Type")
+                      ]),
+                      _vm._v(" "),
+                      _vm._l(_vm.transactionTypes, function(transactionType) {
+                        return _c(
+                          "option",
+                          {
+                            key: transactionType.value,
+                            domProps: { value: transactionType.value }
+                          },
+                          [
+                            _vm._v(
+                              "\n\t\t\t\t\t\t\t\t\t\t" +
+                                _vm._s(transactionType.display) +
+                                "\n\t\t\t\t\t\t\t\t\t"
+                            )
+                          ]
+                        )
+                      })
+                    ],
+                    2
                   )
                 ])
               ]),
