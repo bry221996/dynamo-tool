@@ -91,6 +91,13 @@
 										role="tabpanel"
 										:aria-labelledby="`list-${log.uuid}-list`"
 									>
+										<button
+                                            class="btn btn-sm mb-2"
+											type="button"
+											v-clipboard:copy="JSON.stringify(log, null, 2)"
+										>
+											Copy!
+										</button>
 										<ul class="list-group">
 											<li
 												class="py-2 list-group-item d-flex justify-content-between align-items-center"
