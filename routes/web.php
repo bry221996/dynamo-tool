@@ -21,8 +21,11 @@ Route::get('/', function () {
 });
 
 Route::get('/logs', function () {
+
+    $column = strlen(request('mobile')) == 11 ? 'mobile' : 'account_number';
+
     $log =  WakandaLog::where('query_date', request('date'))
-        ->where('mobile', request('mobile'));
+        ->where($column, request('mobile'));
 
     if (request()->has('method')) {
         $log->where('http_method', strtoupper(request('method')));

@@ -2161,6 +2161,13 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    getIdentifierDisplay: function getIdentifierDisplay(log) {
+      if (log.account_number) {
+        return "Account Number: ".concat(log.account_number);
+      }
+
+      return "Mobile Number: ".concat(log.mobile);
+    },
     formatDate: function formatDate(date) {
       return moment__WEBPACK_IMPORTED_MODULE_3___default()(date);
     },
@@ -2174,6 +2181,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       this.isProcessing = true;
+      this.logs = [];
       axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("/logs", {
         params: this.params
       }).then(function (res) {
@@ -60434,7 +60442,7 @@ var render = function() {
                               },
                               [
                                 _c("code", [
-                                  _vm._v("Mobile: " + _vm._s(log.mobile))
+                                  _vm._v(_vm._s(_vm.getIdentifierDisplay(log)))
                                 ])
                               ]
                             ),
@@ -72955,7 +72963,7 @@ __webpack_require__.r(__webpack_exports__);
 /*!******************************************************************************!*\
   !*** ./resources/js/components/LogFinder.vue?vue&type=template&id=b2aa4ca2& ***!
   \******************************************************************************/
-/*! exports provided: render, staticRenderFns */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

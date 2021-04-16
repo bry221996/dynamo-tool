@@ -95,7 +95,7 @@
 											<li
 												class="py-2 list-group-item d-flex justify-content-between align-items-center"
 											>
-												<code>Mobile: {{ log.mobile }}</code>
+												<code>{{ getIdentifierDisplay(log) }}</code>
 											</li>
 											<li
 												class="py-2 list-group-item d-flex justify-content-between align-items-center"
@@ -221,6 +221,13 @@ export default {
 		},
 	},
 	methods: {
+		getIdentifierDisplay(log) {
+			if (log.account_number) {
+				return `Account Number: ${log.account_number}`;
+			}
+
+			return `Mobile Number: ${log.mobile}`;
+		},
 		formatDate(date) {
 			return moment(date);
 		},
@@ -232,6 +239,7 @@ export default {
 		},
 		find() {
 			this.isProcessing = true;
+			this.logs = [];
 			axios
 				.get("/logs", {
 					params: this.params,
