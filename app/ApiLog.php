@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class ApiLog extends DynamoDbModel
 {
     protected $table = "gr_dev_api_logs_v2";
-    protected $compositeKey = ['query_date', 'mobile'];
 
     public function __construct()
     {

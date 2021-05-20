@@ -35,7 +35,7 @@ class GenerateWakandaLog extends Command
      */
     public function handle()
     {
-        $dates = ['2021-04-05'];
+        $dates = ['2021-05-19'];
         // $mobiles = [];
 
         foreach($dates as $date){
@@ -56,7 +56,7 @@ class GenerateWakandaLog extends Command
                 (object) ['start' => '08:00:00+08:00', 'end' => '11:59:59+08:00'],
                 (object) ['start' => '12:00:00+08:00', 'end' => '15:59:59+08:00'],
                 (object) ['start' => '16:00:00+08:00', 'end' => '19:59:59+08:00'],
-                (object) ['start' => '20:00:00+08:00', 'end' => '23:59:59+08:00'],
+                (object) ['start' => '20:00:00+08:00', 'end' => '23:59:59+08:00']
             ];
             $overallCount = 0;
             // dump('Generating: ' . $date . ' for ' . $mobile);

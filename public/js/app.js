@@ -72963,7 +72963,7 @@ __webpack_require__.r(__webpack_exports__);
 /*!******************************************************************************!*\
   !*** ./resources/js/components/LogFinder.vue?vue&type=template&id=b2aa4ca2& ***!
   \******************************************************************************/
-/*! no static exports found */
+/*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

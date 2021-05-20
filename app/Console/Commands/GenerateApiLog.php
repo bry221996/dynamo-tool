@@ -35,8 +35,8 @@ class GenerateApiLog extends Command
      */
     public function handle()
     {
-        $date = '2021-03-10';
-        $mobiles = [];
+        $date = '2021-03-24';
+        $mobiles = ['09272509367'];
 
         foreach($mobiles as $mobile){
             Storage::disk('public')->makeDirectory('api-logs/' . $date);

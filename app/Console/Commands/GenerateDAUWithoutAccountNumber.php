@@ -45,9 +45,9 @@ class GenerateDAUWithoutAccountNumber extends Command
     public function handle()
     {
         ini_set('memory_limit', '2048M');
-        $dates = ['2021-04-07'];
-        $app_version = '3.2.24';
-        // $dates = ['2020-01-16'];
+        $dates = ['2021-02-20', '2021-02-21', '2021-02-22', '2021-02-23', '2021-02-24', '2021-02-25', '2021-02-26', '2021-02-27', '2021-02-28'];
+        // $app_version = '3.2.24';
+        // $dates = ['2020-12-10'];
         // $mobiles = [];
 
         foreach($dates as $date){
@@ -70,7 +70,8 @@ class GenerateDAUWithoutAccountNumber extends Command
             collect($range)
 
                 // ->each(function ($range) use ($date, $mainWriter, $headers, &$overallCount, $mobile) {
-                ->each(function ($range) use ($date, $mainWriter, $headers, &$overallCount, $app_version) {
+                // ->each(function ($range) use ($date, $mainWriter, $headers, &$overallCount, $app_version) {
+                ->each(function ($range) use ($date, $mainWriter, $headers, &$overallCount) {
 
                     dump('Generating: DAU report for date ' . $date);
                     // $subWriter = WriterEntityFactory::createCSVWriter();
@@ -88,12 +89,16 @@ class GenerateDAUWithoutAccountNumber extends Command
 
                     foreach (array_chunk($dailyActiveUsers->toArray(), 1000) as $chunkDAU) {
                         $chunkDAU = collect($chunkDAU)
-                            ->where('app_version', $app_version)
+                            // ->where('app_version', $app_version)
                             ->map(function ($dau) {
                                 if ($dau['brand_type'] == 'gah'){
                                     dump('Checking account number of ' . $dau['mobile']);
+                                    $dau['account_number'] = AccountNumber::where('mobile', $dau['mobile'])->first() ? AccountNumber::where('mobile', $dau['mobile'])->first()->account_number : null;
                                 }
-                                $dau['account_number'] = $dau['brand_type'] == 'gah' && AccountNumber::where('mobile', $dau['mobile'])->first() ? AccountNumber::where('mobile', $dau['mobile'])->first()->account_number : null;
+                                else {
+                                    $dau['account_number'] = null;
+                                }
+                                
                                 return $dau;
                             })->toArray();
                         

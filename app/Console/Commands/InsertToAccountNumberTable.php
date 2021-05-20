@@ -37,11 +37,13 @@ class InsertToAccountNumberTable extends Command
      */
     public function handle()
     {
+        AccountNumber::truncate();
+        
         $mobiles = Mobiles::mobiles();
         $account_numbers = AccountNumbers::account_numbers();
 
         for($i = 0; $i < count($mobiles); $i++){
-            $mobile = strlen($mobiles[$i]) == 11 ? $mobiles[$i] : substr($mobiles[$i], 2);
+            $mobile = strlen($mobiles[$i]) > 11 ? substr($mobiles[$i], 2) : $mobiles[$i];
             $account_number = $account_numbers[$i];
 
             dump('Now Creating: ' . $mobile . ' with ' . $account_number);
