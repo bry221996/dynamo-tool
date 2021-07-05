@@ -92,7 +92,7 @@
 										:aria-labelledby="`list-${log.uuid}-list`"
 									>
 										<button
-                                            class="btn btn-sm mb-2"
+											class="btn btn-sm mb-2"
 											type="button"
 											v-clipboard:copy="JSON.stringify(log, null, 2)"
 										>
@@ -168,7 +168,7 @@ export default {
 	data() {
 		return {
 			mobile: "",
-			queryDate: "2021-04-16",
+			queryDate: "2021-05-06",
 			method: "",
 			logs: [],
 			isProcessing: false,

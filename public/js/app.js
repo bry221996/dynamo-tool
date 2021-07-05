@@ -2117,7 +2117,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       mobile: "",
-      queryDate: "2021-04-16",
+      queryDate: "2021-05-06",
       method: "",
       logs: [],
       isProcessing: false,

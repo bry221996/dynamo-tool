@@ -1,0 +1,2 @@
+﻿MSISDN,Account_Number,Message,Transaction_Type,Millipede_Error,Error_Response,HTTP_Method,SKU,Status_Code,Activity_Date
+09050236126,,"Query succeeded","GET /v2/loyaltyManagement/nlp/points",[0],"{""resultCode"":0,""loyaltyPointsDetail"":{""totalPoints"":0.4,""loyaltyPoints"":[{""type"":""Regular"",""total"":0.4,""wallets"":[{""walletPoints"":0.4,""walletExpiry"":""2022-06-09""}]}]},""resultDescription"":""Query succeeded""}",GET,[],200,"2021-06-30 00:31:22"
